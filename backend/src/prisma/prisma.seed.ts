@@ -17,16 +17,29 @@ async function main() {
       questions: {
         create: [
           {
-            text: 'Is this a sample question?',
-            options: ['Yes', 'No'],
-            order: 1,
-            questionType: 'BOOLEAN',
+            text: 'Is this a sample quiz?',
+            order: 0,
+            type: 'BOOLEAN',
+            correctAnswer: true,
           },
           {
-            text: 'What is your name?',
-            options: [],
+            text: 'What is the capital of France?',
+            order: 1,
+            type: 'INPUT',
+            answer: 'Paris',
+          },
+          {
+            text: 'Which numbers are even?',
             order: 2,
-            questionType: 'INPUT',
+            type: 'CHECKBOX',
+            options: {
+              create: [
+                { text: '1', isCorrect: false, order: 0 },
+                { text: '2', isCorrect: true, order: 1 },
+                { text: '3', isCorrect: false, order: 2 },
+                { text: '4', isCorrect: true, order: 3 },
+              ],
+            },
           },
         ],
       },
