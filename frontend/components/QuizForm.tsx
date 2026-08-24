@@ -87,9 +87,11 @@ export default function QuizForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="title">Quiz title</label>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="rounded-lg border border-slate-200 bg-white p-4">
+        <label htmlFor="title" className="block text-sm font-medium text-slate-700">
+          Quiz title
+        </label>
         <input
           id="title"
           type="text"
@@ -97,30 +99,42 @@ export default function QuizForm() {
           onChange={(event) => setTitle(event.target.value)}
           required
           placeholder="My first quiz"
+          className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none"
         />
       </div>
 
-      {questions.map((question, index) => (
-        <QuestionForm
-          key={question.id}
-          index={index}
-          question={question}
-          canRemove={questions.length > 1}
-          onChange={updateQuestion}
-          onRemove={removeQuestion}
-        />
-      ))}
+      <div className="space-y-4">
+        {questions.map((question, index) => (
+          <QuestionForm
+            key={question.id}
+            index={index}
+            question={question}
+            canRemove={questions.length > 1}
+            onChange={updateQuestion}
+            onRemove={removeQuestion}
+          />
+        ))}
+      </div>
 
-      <button type="button" onClick={addQuestion}>
+      <button
+        type="button"
+        onClick={addQuestion}
+        className="rounded-md border border-slate-300 px-4 py-2 font-medium text-slate-700 hover:bg-slate-100"
+      >
         Add question
       </button>
 
-      <button type="submit" disabled={isSaving}>
-        {isSaving ? 'Saving...' : 'Save quiz'}
-      </button>
-
-      {error && <p>{error}</p>}
-      {isSaved && !error && <p>Quiz saved!</p>}
+      <div className="flex items-center gap-4">
+        <button
+          type="submit"
+          disabled={isSaving}
+          className="rounded-md bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-500 disabled:opacity-50"
+        >
+          {isSaving ? 'Saving...' : 'Save quiz'}
+        </button>
+        {error && <p className="text-sm text-red-600">{error}</p>}
+        {isSaved && !error && <p className="text-sm text-green-600">Quiz saved!</p>}
+      </div>
     </form>
   );
 }

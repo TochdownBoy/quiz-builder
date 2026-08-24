@@ -1,7 +1,9 @@
 import { Type } from 'class-transformer';
 import {
+  ArrayMinSize,
   IsArray,
   IsBoolean,
+  IsIn,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -23,9 +25,8 @@ export class CreateQuestionDto {
   @IsNotEmpty()
   text!: string;
 
-  @IsString()
-  @IsNotEmpty()
-  type!: string;
+  @IsIn(['BOOLEAN', 'INPUT', 'CHECKBOX'])
+  type!: 'BOOLEAN' | 'INPUT' | 'CHECKBOX';
 
   @IsOptional()
   @IsBoolean()
@@ -33,10 +34,12 @@ export class CreateQuestionDto {
 
   @IsOptional()
   @IsString()
+  @IsNotEmpty()
   answer?: string;
 
   @IsOptional()
   @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => CreateOptionDto)
   options?: CreateOptionDto[];
@@ -49,6 +52,7 @@ export class CreateQuizDto {
   title!: string;
 
   @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => CreateQuestionDto)
   questions!: CreateQuestionDto[];
