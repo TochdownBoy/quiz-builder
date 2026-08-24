@@ -28,10 +28,13 @@ model Question {
     id String @id @default(uuid())
 
     text String
-    options String[] //for checkbox type etc
+    order Int
+    type QuestionType @map("question_type")
 
-    order        Int
-    questionType QuestionType @map("question_type")
+    correctAnswer Boolean?
+    answer String?
+
+    options Option[]
 
     quiz   Quiz?   @relation(fields: [quizId], references: [id], onDelete: Cascade)
     quizId String
@@ -40,6 +43,22 @@ model Question {
     updatedAt DateTime @updatedAt @map("updated_at")
 
     @@map("questions")
+}
+
+model Option {
+    id String @id @default(uuid())
+
+    text String
+    isCorrect Boolean
+    order Int
+
+    question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+    questionId String
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    @@map("options")
 }
 
 enum QuestionType {
