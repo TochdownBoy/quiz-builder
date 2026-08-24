@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { getQuizzes } from '@/services/quizService';
+import { deleteQuiz, getQuizzes } from '@/services/quizService';
 import type { Quiz } from '@/types/quiz';
 
 export default function QuizzesPage() {
@@ -14,6 +14,17 @@ export default function QuizzesPage() {
       .catch(() => setError('Could not load quizzes. Please try again later.'))
       .finally(() => setIsLoading(false));
   }, []);
+
+  async function handleDelete(id: string) {
+    setError('');
+
+    try {
+      await deleteQuiz(id);
+      setQuizzes(quizzes.filter((quiz) => quiz.id !== id));
+    } catch {
+      setError('Could not delete the quiz. Please try again.');
+    }
+  }
 
   if (isLoading) {
     return <p className="text-slate-600">Loading quizzes...</p>;
@@ -42,18 +53,26 @@ export default function QuizzesPage() {
           {quizzes.map((quiz) => (
             <li
               key={quiz.id}
-              className="rounded-lg border border-slate-200 bg-white p-4"
+              className="flex items-center justify-between rounded-lg border border-slate-200 bg-white p-4"
             >
-              <Link
-                href={`/quizzes/${quiz.id}`}
-                className="font-medium text-indigo-600 hover:text-indigo-500"
+              <div>
+                <Link
+                  href={`/quizzes/${quiz.id}`}
+                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                >
+                  {quiz.title}
+                </Link>
+                <p className="text-sm text-slate-500">
+                  {quiz.questions.length}{' '}
+                  {quiz.questions.length === 1 ? 'question' : 'questions'}
+                </p>
+              </div>
+              <button
+                onClick={() => handleDelete(quiz.id)}
+                className="rounded-md border border-red-200 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50"
               >
-                {quiz.title}
-              </Link>
-              <p className="text-sm text-slate-500">
-                {quiz.questions.length}{' '}
-                {quiz.questions.length === 1 ? 'question' : 'questions'}
-              </p>
+                Delete
+              </button>
             </li>
           ))}
         </ul>

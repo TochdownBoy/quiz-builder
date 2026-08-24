@@ -35,3 +35,13 @@ export async function getQuiz(id: string): Promise<Quiz> {
 
   return response.json();
 }
+
+export async function deleteQuiz(id: string): Promise<void> {
+  const response = await fetch(`${API_URL}/quizzes/${id}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to delete quiz (status ${response.status})`);
+  }
+}
