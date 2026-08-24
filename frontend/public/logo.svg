@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" xmlns:bx="https://boxy-svg.com">
+  <text style="font-family: &quot;Arial&quot;, sans-serif; font-size: 28px; white-space: pre; transform-origin: 305.988px 241.009px 0px;" transform="matrix(12.44051, -8.709542, 9.008177, 13.232111, 28.319296, -7.900491)" x="296.65" y="250.739">B</text>
+  <path d="M 179.785 228.476 m -160.016 0 a 160.016 162.289 0 1 0 320.032 0 a 160.016 162.289 0 1 0 -320.032 0 Z M 179.785 228.476 m -126.909 0 a 126.909 130.525 0 0 1 253.818 0 a 126.909 130.525 0 0 1 -253.818 0 Z" bx:shape="ring 179.785 228.476 126.909 130.525 160.016 162.289 1@8f09ec7d" style="fill: rgb(37, 0, 255);"/>
+  <rect x="215.018" y="1099.39" width="31.915" height="181.66" style="fill: rgb(50, 0, 255); transform-origin: 230.979px 1190.23px 0px;" transform="matrix(0.81915, -0.57358, 0.563023, 0.826542, 11.151541, -817.059334)"/>
+</svg>

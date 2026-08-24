@@ -1,98 +1,155 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <img src="frontend/public/logo.svg" width="120" alt="Quiz Builder logo" />
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<h1 align="center">Quiz Builder</h1>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+  Full-Stack JS test assignment — build quizzes with <strong>BOOLEAN</strong>, <strong>INPUT</strong> and
+  <strong>CHECKBOX</strong> questions. NestJS + PostgreSQL + Prisma API, Next.js (Pages Router) frontend.
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Requirements
 
-## Project setup
+- Node.js 18+
+- Docker (for PostgreSQL)
+- Beekeeper Studio or any other SQL client (optional, to inspect the database)
 
-```bash
-$ npm install
+## Project structure
+
+```
+quiz-builder/
+├── backend/     NestJS REST API (port 3001)
+└── frontend/    Next.js Pages Router app (port 3000)
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## 1. Set up the database
 
-# watch mode
-$ npm run start:dev
+The API expects PostgreSQL with:
 
-# production mode
-$ npm run start:prod
+| Setting  | Value          |
+| -------- | -------------- |
+| Host     | `localhost`    |
+| Port     | `5432`         |
+| User     | `postgres`     |
+| Password | `postgres`     |
+| Database | `quiz_builder` |
+
+These values are already configured in `backend/.env`:
+
+```env
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DATABASE=quiz_builder
 ```
 
-## Run tests
+### Option A — quick container (current setup)
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker run -d \
+  --name quiz-builder-pg \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=quiz_builder \
+  -p 5432:5432 \
+  postgres:16-alpine
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Option B — project docker compose
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+cd backend
+docker compose up -d   # starts quizBuilderDB on localhost:5433
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+> If you use this option, change `POSTGRES_PORT=5433` in `backend/.env`.
+> If port 5433 is already taken by another container, stop it or change the
+> mapping in `backend/docker-compose.yml` (for example `"5440:5432"`).
 
-## Resources
+You can verify the connection in Beekeeper Studio using the credentials above.
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 2. Start the backend
 
-## Support
+```bash
+cd backend
+npm install
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+npx prisma generate   # generate the Prisma client
+npx prisma db push    # create tables from prisma/schema.prisma
+npx prisma db seed    # insert the sample quiz
 
-## Stay in touch
+npm run start:dev     # runs on http://localhost:3001
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 3. Start the frontend
 
-## License
+```bash
+cd frontend
+npm install
+npm run dev           # runs on http://localhost:3000
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+The frontend reads the API URL from `frontend/.env` (already configured):
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3001
+```
+
+Open **http://localhost:3000** in your browser.
+
+---
+
+## Create a sample quiz
+
+Two ways:
+
+1. **Seed script** (already done above):
+
+   ```bash
+   cd backend
+   npx prisma db seed
+   ```
+
+   This creates a "Sample quiz" containing one question of each type.
+
+2. **Through the UI** — open http://localhost:3000/create,
+   enter a title, add questions, pick a type for each one and press **Save quiz**.
+
+---
+
+## API endpoints
+
+| Method   | Endpoint          | Description                    |
+| -------- | ----------------- | ------------------------------ |
+| `POST`   | `/quizzes`        | Create a quiz with questions   |
+| `GET`    | `/quizzes`        | List all quizzes               |
+| `GET`    | `/quizzes/:id`    | Get one quiz with its questions|
+| `DELETE` | `/quizzes/:id`    | Delete a quiz                  |
+
+### Example payload for `POST /quizzes`
+
+```jsonc
+{
+  "title": "My quiz",
+  "questions": [
+    { "text": "Is Kyiv the capital?", "type": "BOOLEAN", "correctAnswer": true },
+    { "text": "Capital of France?",   "type": "INPUT",   "answer": "Paris" },
+    {
+      "text": "Pick even numbers",
+      "type": "CHECKBOX",
+      "options": [
+        { "text": "2", "isCorrect": true },
+        { "text": "3", "isCorrect": false }
+      ]
+    }
+  ]
+}
+```
